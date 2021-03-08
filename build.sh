@@ -13,7 +13,7 @@ case ${1} in
         docker images
     ;;
     "start")
-        docker-compose -f docker/docker-compose.yml up -d
+        docker-compose -f docker/docker-compose.yml up --build
     ;;
     "stop")
         docker-compose -f docker/docker-compose.yml down

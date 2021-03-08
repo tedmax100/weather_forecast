@@ -1,7 +1,6 @@
 FROM golang:latest AS build-env
 WORKDIR /go/src/github.com/weather_forecast/
 
-# RUN cd ..
 COPY . .
 WORKDIR cmd/web_forecast
 
@@ -14,12 +13,9 @@ FROM alpine
 WORKDIR /app
 COPY --from=build-env  /go/src/github.com/weather_forecast/cmd/web_forecast /app
 COPY --from=build-env /go/src/github.com/weather_forecast/configs/ /app/configs
-COPY --from=build-env /go/src/github.com/docker/wait-for-db.sh/ /init.sh
+COPY --from=build-env /go/src/github.com/weather_forecast/docker/wait-for-db.sh /app/init.sh
 
-RUN chmod +x /init.sh
+RUN chmod +x init.sh
 EXPOSE  8080
-ENTRYPOINT /init.sh
 
-
-
-# ENTRYPOINT ./main
+ENTRYPOINT ./init.sh

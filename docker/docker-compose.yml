@@ -22,24 +22,22 @@ services:
     ]
   crawler-service:
     build: 
-      context: .
-      dockerfile: CrawlerDockerfile
+      context: ../
+      dockerfile: docker/CrawlerDockerfile
     image: cwb_crawl
     depends_on: 
       - "db"
-    command: ["./wait-for-db.sh", "pwd", "ls"]
     networks:
        backend:
   web-forecast-service:
     build: 
-      context: .
-      dockerfile: ForecastDockerfile
+      context: ../
+      dockerfile: docker/ForecastDockerfile
     image: web_forecast
     ports:
       - "8080:8080"
     depends_on: 
       - "db"
-    command: ["./wait-for-db.sh", "pwd", "ls"]
     networks:
        backend:
 networks:

@@ -1,7 +1,9 @@
 #!/bin/sh
 
 set -eu
- 
+pwd
+
+ls -al
 echo "Checking DB connection ..."
  
 i=0
@@ -23,4 +25,5 @@ fi
  
 echo "DB is up ..."
  
-/main
+
+./main
