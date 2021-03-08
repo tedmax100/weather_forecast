@@ -1,0 +1,21 @@
+FROM golang:latest AS build-env
+WORKDIR /go/src/github.com/weather_forecast/
+
+# RUN cd ..
+COPY . .
+WORKDIR cmd/cwb_crawler
+
+ENV GO111MODULE=on
+RUN go get -u
+
+RUN   CGO_ENABLED=0 GOOS=linux go build -o main
+
+FROM alpine 
+WORKDIR /app
+COPY --from=build-env  /go/src/github.com/weather_forecast/cmd/cwb_crawler /app
+COPY --from=build-env /go/src/github.com/weather_forecast/configs/ /app/configs
+COPY --from=build-env /go/src/github.com/docker/wait-for-db.sh/ /init.sh
+
+RUN chmod +x /init.sh
+
+ENTRYPOINT /init.sh

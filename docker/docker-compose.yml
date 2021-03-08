@@ -1,0 +1,52 @@
+version: "3"
+services:
+  db: 
+    image: mysql:${TAG}
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MASTER_MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=weather_forecast
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    networks:
+       backend:
+          ipv4_address: 172.31.0.11
+    volumes:
+      - ./db.cnf:/etc/mysql/conf.d/mysqld.cnf
+      - ./sql:/docker-entrypoint-initdb.d
+    command: [
+      "--server-id=${MASTER_SERVER_ID}",
+      "--default-authentication-plugin=mysql_native_password"
+    ]
+  crawler-service:
+    build: 
+      context: .
+      dockerfile: CrawlerDockerfile
+    image: cwb_crawl
+    depends_on: 
+      - "db"
+    command: ["./wait-for-db.sh", "pwd", "ls"]
+    networks:
+       backend:
+  web-forecast-service:
+    build: 
+      context: .
+      dockerfile: ForecastDockerfile
+    image: web_forecast
+    ports:
+      - "8080:8080"
+    depends_on: 
+      - "db"
+    command: ["./wait-for-db.sh", "pwd", "ls"]
+    networks:
+       backend:
+networks:
+  backend:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.0.0/24
+volumes:
+  mysql-master-data:

@@ -1,0 +1,15 @@
+{
+    "crawler":{
+        "interval" : "0 * * * *",
+        "cwb_url" : "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=%s",
+        "token": "CWB-4AB44B9C-D4C2-414D-9E31-0B39A1EE4241"
+    },
+    "db" : {
+        "host":"172.31.0.11:3306",
+        "user":"root",
+        "password":"m_root_pwd",
+        "max_conns":2,
+        "max_lifetime":180000
+    },
+    "secret": "abcd1234"
+}
