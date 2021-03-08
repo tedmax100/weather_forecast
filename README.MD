@@ -6,7 +6,12 @@ Weather Forcast
 * Web_Forecast : A Web API service, for user to login, and seek forecast data that they want.
 * DB : A MySQL database for persistence data.
 
-# Lanuch Services
+* Build images
+```
+build.sh build
+```
+
+* Lanuch Services
 ```
 build.sh start
 ```
