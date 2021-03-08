@@ -282,3 +282,10 @@ Response Example:
     ]
 }
 ```
+
+
+# Table Introduce
+* User : For store user profile
+* Location : for store location 
+* Element : Store element name and long decription
+* Record : Store forecast data for locations
