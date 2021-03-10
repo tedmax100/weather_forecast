@@ -14,7 +14,7 @@ type ForecastDomain struct {
 func (d *ForecastDomain) Forecast(contextData model.ForecastRequest) (model.Records, error) {
 	var result model.Records = model.Records{}
 	nearestLastStartTime, nearestLastEndTime := contextData.GetNearestLastPeriod()
-	datas, err := d.repo.GetRecords(context.Background(), model.ForecastQueryDao{StartTime: nearestLastStartTime, EndTime: nearestLastEndTime})
+	records, err := d.repo.GetRecords(context.Background(), model.ForecastQueryDao{StartTime: nearestLastStartTime, EndTime: nearestLastEndTime})
 	if err != nil {
 		return result, err
 	}
@@ -22,7 +22,7 @@ func (d *ForecastDomain) Forecast(contextData model.ForecastRequest) (model.Reco
 	var preLocationName string
 	var locations []model.Location = make([]model.Location, 0)
 	var preLocationIdx = 0
-	for _, data := range datas {
+	for _, data := range records {
 		if preLocationName != data.Location {
 			location := model.Location{LocationName: data.Location}
 			location.WeatherElement = make([]model.WeatherElement, 0)
